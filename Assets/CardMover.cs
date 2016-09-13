@@ -1,7 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CardMover : MonoBehaviour {
+public class CardMover : MonoBehaviour 
+{
+
+
+	public float playerSpeed;
+	public Boundary boundary;
+	public GameObject character;
 
 	private Rigidbody2D rb;
 	private Collider2D c2D;
@@ -12,7 +18,7 @@ public class CardMover : MonoBehaviour {
     private Vector3 worldPoint;
 	private Vector3 endPoint;
     //	private float startTime;
-    public float playerSpeed;
+    
 
 
     public void Start()
@@ -46,7 +52,6 @@ public class CardMover : MonoBehaviour {
                 {
                     Debug.Log("Inside");
                     isPlayerTapped = true;
-                    //					startTime = Time.time;
                 }
                 else
                 {
@@ -57,7 +62,7 @@ public class CardMover : MonoBehaviour {
 
             if (isPlayerTapped && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) || (Input.GetAxisRaw("Mouse X") != 0 || Input.GetAxisRaw("Mouse Y") != 0)))
             {
-                //				Debug.Log ("Touch Moved");
+//				Debug.Log ("Touch Moved");
 
 #if UNITY_EDITOR
                 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -66,8 +71,12 @@ public class CardMover : MonoBehaviour {
 			worldPoint = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
 #endif
 
-                gameObject.GetComponent<Rigidbody2D>().MovePosition(worldPoint);
-                Debug.Log(worldPoint);
+//                gameObject.GetComponent<Rigidbody2D>().MovePosition(worldPoint);
+				rb.position = worldPoint;
+//				Debug.Log (worldPoint);
+				rb.position = new Vector2 (
+					Mathf.Clamp (rb.position.x, boundary.xMin, boundary.xMax), 
+					Mathf.Clamp (rb.position.y, boundary.yMin, boundary.yMax));
             }
 
             if (isPlayerTapped && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0))))
@@ -77,11 +86,21 @@ public class CardMover : MonoBehaviour {
                 isPlayerTapped = false;
                 playerOwnMovement = true;
 
+				GameModel.Instance.SetUpGameVariables ();
+				GameModel.Instance.IsCardReleased = true;
+
+				if (character != null)
+				{
+					Instantiate(character, transform.position, transform.rotation);
+				}
+
+				Destroy (gameObject);
+
             }
         }
-        if(playerOwnMovement)
-        {
-            GetComponent<Rigidbody2D>().velocity = transform.up * playerSpeed;
-        }
+//        if(playerOwnMovement)
+//        {
+//            GetComponent<Rigidbody2D>().velocity = transform.up * playerSpeed;
+//        }
     }
 }
