@@ -41,6 +41,7 @@ public class CardMovementController : Singleton<CardMovementController>
 							if (player1Card == null && j < cardMovementRef.playerCards.Length / 2)
 							{
 								player1Card = card;
+								GameModel.Instance.IsPlayer1CardHeld = true;
 								player1CardInitialPosition = card.transform.position;
 								tappedCardsDictionary.Add (touch.fingerId, card);
 								Debug.Log ("Player Card 1 Assigned");
@@ -51,6 +52,7 @@ public class CardMovementController : Singleton<CardMovementController>
 							else if (player2Card == null && j < cardMovementRef.playerCards.Length)
 							{
 								player2Card = card;
+								GameModel.Instance.IsPlayer2CardHeld = true;
 								player2CardInitialPosition = card.transform.position;
 								tappedCardsDictionary.Add (touch.fingerId, card);
 								Debug.Log ("Player Card 2 Assigned");
@@ -110,33 +112,41 @@ public class CardMovementController : Singleton<CardMovementController>
 						{
 							player1Card = null;
 							Debug.Log ("Player Card 1 Nullified");
-							GameModel.Instance.IsPlayer1CardReleased = true;
+							GameModel.Instance.IsPlayer1CardHeld = false;
 //							CharacterMover characterMover = new CharacterMover (Constants.PLAYER_1, card, player1CardInitialPosition);
-							CardReferences cardRef = card.GetComponent<CardReferences> ();
-							if (cardRef.character != null)
+							if(GameModel.Instance.HasPlayer1SelectedPath1 || GameModel.Instance.HasPlayer1SelectedPath2 || GameModel.Instance.HasPlayer1SelectedPath3)
 							{
-								GameObject character = Instantiate(cardRef.character, card.transform.position, card.transform.rotation) as GameObject;
-								character.GetComponent<CharacterMover> ().playerType = Constants.PLAYER_1;
-								character.GetComponent<CharacterMover> ().characterCard = card;
+								CardReferences cardRef = card.GetComponent<CardReferences> ();
+								if (cardRef.character != null)
+								{
+									GameObject character = Instantiate(cardRef.character, card.transform.position, card.transform.rotation) as GameObject;
+									character.GetComponent<CharacterMover> ().playerType = Constants.PLAYER_1;
+//									character.GetComponent<CharacterMover> ().characterCard = card;
+									Debug.Log ("Character Initialized");
+								}
 							}
-//							float step = GameModel.Instance.Speed * Time.deltaTime;
-//							card.transform.position = Vector3.MoveTowards (card.transform.position, player1CardInitialPosition, step);
+							card.transform.position = player1CardInitialPosition;
+							Debug.Log ("Card Repositioned");
 						} 
 						else if (card.Equals (player2Card)) 
 						{
 							player2Card = null;
 							Debug.Log ("Player Card 2 Nullified");
-							GameModel.Instance.IsPlayer2CardReleased = true;
+							GameModel.Instance.IsPlayer2CardHeld = false;
 //							CharacterMover characterMover = new CharacterMover (Constants.PLAYER_2, card, player2CardInitialPosition);
-							CardReferences cardRef = card.GetComponent<CardReferences> ();
-							if (cardRef.character != null)
+							if(GameModel.Instance.HasPlayer2SelectedPath1 || GameModel.Instance.HasPlayer2SelectedPath2 || GameModel.Instance.HasPlayer2SelectedPath3)
 							{
-								GameObject character = Instantiate(cardRef.character, card.transform.position, card.transform.rotation) as GameObject;
-								character.GetComponent<CharacterMover> ().playerType = Constants.PLAYER_2;
-								character.GetComponent<CharacterMover> ().characterCard = card;
+								CardReferences cardRef = card.GetComponent<CardReferences> ();
+								if (cardRef.character != null)
+								{
+									GameObject character = Instantiate(cardRef.character, card.transform.position, card.transform.rotation) as GameObject;
+									character.GetComponent<CharacterMover> ().playerType = Constants.PLAYER_2;
+//									character.GetComponent<CharacterMover> ().characterCard = card;
+									Debug.Log ("Character Initialized");
+								}
 							}
-//							float step = GameModel.Instance.Speed * Time.deltaTime;
-//							card.transform.position = Vector3.MoveTowards (card.transform.position, player2CardInitialPosition, step);
+							card.transform.position = player2CardInitialPosition;
+							Debug.Log ("Card Repositioned");
 						}
 
 					}

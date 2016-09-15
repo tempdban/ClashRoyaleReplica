@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class GameModel: Singleton <GameModel>
 {
-	private bool isPlayer1CardReleased;
-	private bool isPlayer2CardReleased;
+	private bool isPlayer1CardHeld;
+	private bool isPlayer2CardHeld;
 
 	private bool hasPlayer1SelectedPath1;
 	private bool hasPlayer1SelectedPath2;
@@ -23,16 +23,16 @@ public class GameModel: Singleton <GameModel>
 	private List<Vector3> path3ListReversed;
 
 
-	public bool IsPlayer1CardReleased
+	public bool IsPlayer1CardHeld
 	{
-		get{ return isPlayer1CardReleased;}
-		set{ isPlayer1CardReleased = value;}
+		get{ return isPlayer1CardHeld;}
+		set{ isPlayer1CardHeld = value;}
 	}
 
-	public bool IsPlayer2CardReleased
+	public bool IsPlayer2CardHeld
 	{
-		get{ return isPlayer2CardReleased;}
-		set{ isPlayer2CardReleased = value;}
+		get{ return isPlayer2CardHeld;}
+		set{ isPlayer2CardHeld = value;}
 	}
 
 	public bool HasPlayer1SelectedPath1
@@ -108,8 +108,8 @@ public class GameModel: Singleton <GameModel>
 
 	public void SetUpGameVariables()
 	{
-		isPlayer1CardReleased = false;
-		isPlayer2CardReleased = false;
+		isPlayer1CardHeld = false;
+		isPlayer2CardHeld = false;
 
 		hasPlayer1SelectedPath1 = false;
 		hasPlayer1SelectedPath2 = false;
