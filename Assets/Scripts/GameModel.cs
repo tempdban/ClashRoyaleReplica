@@ -4,38 +4,71 @@ using System.Collections.Generic;
 
 public class GameModel: Singleton <GameModel>
 {
-	private bool isCardReleased;
-	private bool isPath1Selected;
-	private bool isPath2Selected;
-	private bool isPath3Selected;
+	private bool isPlayer1CardReleased;
+	private bool isPlayer2CardReleased;
+
+	private bool hasPlayer1SelectedPath1;
+	private bool hasPlayer1SelectedPath2;
+	private bool hasPlayer1SelectedPath3;
+	private bool hasPlayer2SelectedPath1;
+	private bool hasPlayer2SelectedPath2;
+	private bool hasPlayer2SelectedPath3;
+
 	private float speed;
 	private List<Vector3> path1List;
 	private List<Vector3> path2List;
 	private List<Vector3> path3List;
+	private List<Vector3> path1ListReversed;
+	private List<Vector3> path2ListReversed;
+	private List<Vector3> path3ListReversed;
 
 
-	public bool IsCardReleased
+	public bool IsPlayer1CardReleased
 	{
-		get{ return isCardReleased;}
-		set{ isCardReleased = value;}
+		get{ return isPlayer1CardReleased;}
+		set{ isPlayer1CardReleased = value;}
 	}
 
-	public bool IsPath1Selected
+	public bool IsPlayer2CardReleased
 	{
-		get{ return isPath1Selected;}
-		set{ isPath1Selected = value;}
+		get{ return isPlayer2CardReleased;}
+		set{ isPlayer2CardReleased = value;}
 	}
 
-	public bool IsPath2Selected
+	public bool HasPlayer1SelectedPath1
 	{
-		get{ return isPath2Selected;}
-		set{ isPath2Selected = value;}
+		get{ return hasPlayer1SelectedPath1;}
+		set{ hasPlayer1SelectedPath1 = value;}
 	}
 
-	public bool IsPath3Selected
+	public bool HasPlayer1SelectedPath2
 	{
-		get{ return isPath3Selected;}
-		set{ isPath3Selected = value;}
+		get{ return hasPlayer1SelectedPath2;}
+		set{ hasPlayer1SelectedPath2 = value;}
+	}
+
+	public bool HasPlayer1SelectedPath3
+	{
+		get{ return hasPlayer1SelectedPath3;}
+		set{ hasPlayer1SelectedPath3 = value;}
+	}
+
+	public bool HasPlayer2SelectedPath1
+	{
+		get{ return hasPlayer2SelectedPath1;}
+		set{ hasPlayer2SelectedPath1 = value;}
+	}
+
+	public bool HasPlayer2SelectedPath2
+	{
+		get{ return hasPlayer2SelectedPath2;}
+		set{ hasPlayer2SelectedPath2 = value;}
+	}
+
+	public bool HasPlayer2SelectedPath3
+	{
+		get{ return hasPlayer2SelectedPath3;}
+		set{ hasPlayer2SelectedPath3 = value;}
 	}
 
 	public float Speed
@@ -58,15 +91,36 @@ public class GameModel: Singleton <GameModel>
 		get{ return path3List;}
 	}
 
+	public List<Vector3> Path1ListReversed
+	{
+		get{ return path1ListReversed;}
+	}
+
+	public List<Vector3> Path2ListReversed
+	{
+		get{ return path2ListReversed;}
+	}
+
+	public List<Vector3> Path3ListReversed
+	{
+		get{ return path3ListReversed;}
+	}
+
 	public void SetUpGameVariables()
 	{
-		isCardReleased = false;
-		isPath1Selected = false;
-		isPath2Selected = false;
-		isPath3Selected = false;
+		isPlayer1CardReleased = false;
+		isPlayer2CardReleased = false;
+
+		hasPlayer1SelectedPath1 = false;
+		hasPlayer1SelectedPath2 = false;
+		hasPlayer1SelectedPath3 = false;
+		hasPlayer2SelectedPath1 = false;
+		hasPlayer2SelectedPath2 = false;
+		hasPlayer2SelectedPath3 = false;
+
 		speed = 2.0f;
 		path1List = new List<Vector3> {
-			new Vector3 (-0.79f, -2.72f, 0.0f),
+			new Vector3 (-0.59f, -3.03f, 0.0f),
 			new Vector3 (-2.07f, -1.38f, 0.0f),
 			new Vector3 (-1.89f, -0.75f, 0.0f),
 			new Vector3 (-1.87f, 1.9f, 0.0f),
@@ -86,7 +140,7 @@ public class GameModel: Singleton <GameModel>
 		};
 
 		path3List = new List<Vector3> {
-			new Vector3 (0.9f, -2.72f, 0.0f),
+			new Vector3 (0.55f, -2.96f, 0.0f),
 			new Vector3 (1.78f, -1.49f, 0.0f),
 			new Vector3 (1.48f, -1.28f, 0.0f),
 			new Vector3 (1.95f, -0.91f, 0.0f),
@@ -95,5 +149,15 @@ public class GameModel: Singleton <GameModel>
 			new Vector3 (1.71f, 2.43f, 0.0f),
 			new Vector3 (0.53f, 3.71f, 0.0f)
 		};
+
+		path1ListReversed = new List<Vector3> ();
+		path1ListReversed.AddRange (path1List);
+		path1ListReversed.Reverse ();
+		path2ListReversed = new List<Vector3> ();
+		path2ListReversed.AddRange (path2List);
+		path2ListReversed.Reverse ();
+		path3ListReversed = new List<Vector3> ();
+		path3ListReversed.AddRange (path3List);
+		path3ListReversed.Reverse ();
 	}
 }
