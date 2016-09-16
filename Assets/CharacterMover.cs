@@ -7,18 +7,30 @@ public class CharacterMover : MonoBehaviour
 
 	public int playerType;
 	public float speed;
-//	public GameObject characterCard;
+	public float totalHealth;
+	public SpriteRenderer healthBar;
+	public SpriteRenderer healthBarBorder;
+	public GameObject bullet;
 //	private Animator anim;
+	private bool shouldSpawnBullets;
 	private int currentPosition;
+	private float currentHealth;
 	private Vector3 targetPosition;
 	private List<Vector3> pathList;
 
 	void Start()
 	{
-//		Debug.Log ("Start");
 //		anim = GetComponent<Animator> ();
 		currentPosition = 0;
 		targetPosition = Vector3.zero;
+
+		//setting up character data
+		currentHealth = totalHealth;
+		UpdateHealthBar ();
+		Debug.Log ("Total Health: " + totalHealth);
+		Debug.Log ("Current Health: " + totalHealth);
+		healthBar.color = Constants.PLAYER_HEALTH_BAR_COLORS[playerType - 1];
+		healthBarBorder.color = Constants.PLAYER_HEALTH_BAR_BORDER_COLORS[playerType - 1];
 	}
 
 	void Update()
@@ -50,7 +62,7 @@ public class CharacterMover : MonoBehaviour
 			}
 			targetPosition = pathList [0];
 			transform.position = targetPosition;
-			GetComponent<Collider2D> ().enabled = false;
+//			GetComponent<Collider2D> ().enabled = false;
 //			characterCard.GetComponent<Collider2D> ().enabled = false;
 //			Destroy (characterCard);
 //			float step = GameModel.Instance.Speed * Time.deltaTime;
@@ -74,5 +86,41 @@ public class CharacterMover : MonoBehaviour
 				targetPosition = Vector3.zero;
 			}
 		}
+	}
+
+	IEnumerator SpawnBullets ()
+	{
+		while (shouldSpawnBullets)
+		{
+			Instantiate (bullet, transform.position, transform.rotation);
+			yield return new WaitForSeconds (0.2f);
+		}
+	}
+
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Character" && (playerType != other.GetComponent<CharacterMover>().playerType)) 
+		{
+			Debug.Log ("CollisionEnter2D");
+			shouldSpawnBullets = true;
+			StartCoroutine (SpawnBullets ());
+		}
+
+	}
+
+	void OnTriggerExit2D(Collider2D other)
+	{
+		if (other.tag == "Character" && (playerType != other.GetComponent<CharacterMover>().playerType)) 
+		{
+			Debug.Log ("CollisionExit2D");
+			shouldSpawnBullets = false;
+			StopCoroutine (SpawnBullets ());
+		}
+	}
+
+	private void UpdateHealthBar()
+	{
+		healthBar.transform.localScale = new Vector3 ((currentHealth / totalHealth), 1.0f, 1.0f);
 	}
 }

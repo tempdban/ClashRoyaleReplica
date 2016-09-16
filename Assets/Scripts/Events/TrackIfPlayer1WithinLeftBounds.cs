@@ -5,7 +5,7 @@ public class TrackIfPlayer1WithinLeftBounds : MonoBehaviour
 {
 	void OnTriggerStay2D(Collider2D other) 
 	{
-		if (GameModel.Instance.IsPlayer1CardHeld)
+		if (other.tag == "Card" && GameModel.Instance.IsPlayer1CardHeld)
 		{
 //			other.GetComponent<Rigidbody2D> ().position = GameModel.Instance.Path1List[0];
 			GameModel.Instance.HasPlayer1SelectedPath1 = true;
@@ -18,7 +18,7 @@ public class TrackIfPlayer1WithinLeftBounds : MonoBehaviour
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		if (GameModel.Instance.IsPlayer1CardHeld) {
+		if (other.tag == "Card" && GameModel.Instance.IsPlayer1CardHeld) {
 			GameModel.Instance.HasPlayer1SelectedPath1 = false;
 		}
 	}

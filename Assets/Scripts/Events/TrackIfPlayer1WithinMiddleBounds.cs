@@ -5,7 +5,7 @@ public class TrackIfPlayer1WithinMiddleBounds : MonoBehaviour
 {
 	void OnTriggerStay2D(Collider2D other) 
 	{
-		if (GameModel.Instance.IsPlayer1CardHeld)
+		if (other.tag == "Card" && GameModel.Instance.IsPlayer1CardHeld)
 		{
 //			other.GetComponent<Rigidbody2D> ().position = GameModel.Instance.Path2List[0];
 			GameModel.Instance.HasPlayer1SelectedPath1 = false;
@@ -18,7 +18,7 @@ public class TrackIfPlayer1WithinMiddleBounds : MonoBehaviour
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		if (GameModel.Instance.IsPlayer1CardHeld) {
+		if (other.tag == "Card" && GameModel.Instance.IsPlayer1CardHeld) {
 			GameModel.Instance.HasPlayer1SelectedPath2 = false;
 		}
 	}
