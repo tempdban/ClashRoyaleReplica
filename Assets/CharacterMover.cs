@@ -20,7 +20,13 @@ public class CharacterMover : MonoBehaviour
 	private Vector3 targetPosition;
 	private List<Vector3> pathList;
 
-	void Start()
+    public float CurrentHealth
+    {
+        get { return currentHealth; }
+        set { currentHealth = value; }
+    }
+
+    void Start()
 	{
 //		anim = GetComponent<Animator> ();
 		currentPosition = 0;
