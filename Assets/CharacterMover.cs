@@ -8,11 +8,12 @@ public class CharacterMover : MonoBehaviour
 	public int playerType;
 	public float speed;
 	public float totalHealth;
+	public float damagePerSecond;
 	public SpriteRenderer healthBar;
 	public SpriteRenderer healthBarBorder;
 	public GameObject bullet;
 //	private Animator anim;
-	private bool shouldSpawnBullets;
+	private bool shouldAttack;
 	private int currentPosition;
 	private float currentHealth;
 	private Vector3 targetPosition;
@@ -69,7 +70,7 @@ public class CharacterMover : MonoBehaviour
 //			card.transform.position = Vector3.MoveTowards (card.transform.position, player2CardInitialPosition, step);
 		}
 
-		if (pathList != null) {
+		if (pathList != null && !shouldAttack) {
 //			Debug.Log ("PathList NOT NULL");
 			float step = speed * Time.deltaTime;
 			if (transform.position.Equals (targetPosition)) {
@@ -90,10 +91,42 @@ public class CharacterMover : MonoBehaviour
 
 	IEnumerator SpawnBullets ()
 	{
-		while (shouldSpawnBullets)
+		while (shouldAttack)
 		{
 			Instantiate (bullet, transform.position, transform.rotation);
 			yield return new WaitForSeconds (0.2f);
+		}
+	}
+
+	IEnumerator DamageEnemyHealth (GameObject enemy)
+	{
+		while (shouldAttack)
+		{
+			if (enemy != null) {
+				if (enemy.GetComponent<CharacterMover> ().currentHealth - damagePerSecond > 0) {
+					enemy.GetComponent<CharacterMover> ().currentHealth -= damagePerSecond;
+					UpdateHealthBar (enemy);
+					Debug.Log ("Remaining Health: " + enemy.GetComponent<CharacterMover> ().currentHealth);
+					yield return new WaitForSeconds (1.0f);
+				} else {
+					enemy.GetComponent<CharacterMover> ().currentHealth = 0.0f;
+					UpdateHealthBar (enemy);
+					Debug.Log ("Remaining Health: " + enemy.GetComponent<CharacterMover> ().currentHealth);
+					Destroy (enemy);
+					Debug.Log ("Enemy Destroyed");
+					shouldAttack = false;
+					StopCoroutine (SpawnBullets ());
+					Debug.Log ("All Coroutine stopped");
+					yield break;
+				}
+			} else {
+				Debug.Log ("Enemy Already Dead");
+				shouldAttack = false;
+				StopCoroutine (SpawnBullets ());
+				Debug.Log ("All Coroutine stopped due to dead enemy");
+				yield break;
+			}
+
 		}
 	}
 
@@ -102,9 +135,18 @@ public class CharacterMover : MonoBehaviour
 	{
 		if (other.tag == "Character" && (playerType != other.GetComponent<CharacterMover>().playerType)) 
 		{
-			Debug.Log ("CollisionEnter2D");
-			shouldSpawnBullets = true;
+			shouldAttack = true;
 			StartCoroutine (SpawnBullets ());
+			StartCoroutine (DamageEnemyHealth (other.gameObject));
+		}
+
+	}
+
+	void OnTriggerStay2D(Collider2D other)
+	{
+		if (other.tag == "Character" && (playerType != other.GetComponent<CharacterMover>().playerType)) 
+		{
+			
 		}
 
 	}
@@ -113,14 +155,21 @@ public class CharacterMover : MonoBehaviour
 	{
 		if (other.tag == "Character" && (playerType != other.GetComponent<CharacterMover>().playerType)) 
 		{
-			Debug.Log ("CollisionExit2D");
-			shouldSpawnBullets = false;
+			Debug.Log ("TriggerExit Called");
+			shouldAttack = false;
 			StopCoroutine (SpawnBullets ());
+			StopCoroutine (DamageEnemyHealth (other.gameObject));
+			Debug.Log ("TriggerExit end");
 		}
 	}
 
 	private void UpdateHealthBar()
 	{
 		healthBar.transform.localScale = new Vector3 ((currentHealth / totalHealth), 1.0f, 1.0f);
+	}
+
+	private void UpdateHealthBar(GameObject gameObject)
+	{
+		gameObject.GetComponent<CharacterMover> ().healthBar.transform.localScale = new Vector3 ((gameObject.GetComponent<CharacterMover> ().currentHealth / gameObject.GetComponent<CharacterMover> ().totalHealth), 1.0f, 1.0f);
 	}
 }
