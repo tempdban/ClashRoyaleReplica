@@ -105,33 +105,30 @@ public class CharacterMover : MonoBehaviour
 		}
 	}
 
-	IEnumerator DamageEnemyHealth (GameObject enemy)
+
+	IEnumerator DamageEnemyHealth (GameObject enemy, float enemyTotalHealth, float enemyCurrentHealth, int enemyKillEarning, SpriteRenderer enemyHealthBar)
 	{
 		while (shouldAttack)
 		{
 			if (enemy != null) {
-				if (enemy.GetComponent<CharacterMover> ().currentHealth - damagePerSecond > 0) {
-					enemy.GetComponent<CharacterMover> ().currentHealth -= damagePerSecond;
-					UpdateHealthBar (enemy);
-					Debug.Log ("Remaining Health: " + enemy.GetComponent<CharacterMover> ().currentHealth);
+				if (enemyCurrentHealth - damagePerSecond > 0) {
+					enemyCurrentHealth -= damagePerSecond;
+					Debug.Log("Tower Remaining Health: " + enemyCurrentHealth);
+					UpdateHealthBar (enemyHealthBar, enemyTotalHealth, enemyCurrentHealth);
 					yield return new WaitForSeconds (1.0f);
 				} else {
-					enemy.GetComponent<CharacterMover> ().currentHealth = 0.0f;
-					UpdateHealthBar (enemy);
-					Debug.Log ("Remaining Health: " + enemy.GetComponent<CharacterMover> ().currentHealth);
-					GameController.Instance.UpdatePlayerRevenue (playerType, enemy.GetComponent<CharacterMover> ().killEarning);
+					enemyCurrentHealth = 0.0f;
+					UpdateHealthBar (enemyHealthBar, enemyTotalHealth, enemyCurrentHealth);
+					GameController.Instance.UpdatePlayerRevenue (playerType, enemyKillEarning);
+					Debug.Log("Tower Remaining Health: " + enemyCurrentHealth);
 					Destroy (enemy);
-					Debug.Log ("Enemy Destroyed");
 					shouldAttack = false;
 					StopCoroutine (SpawnBullets ());
-					Debug.Log ("All Coroutine stopped");
 					yield break;
 				}
 			} else {
-				Debug.Log ("Enemy Already Dead");
 				shouldAttack = false;
 				StopCoroutine (SpawnBullets ());
-				Debug.Log ("All Coroutine stopped due to dead enemy");
 				yield break;
 			}
 
@@ -141,33 +138,29 @@ public class CharacterMover : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.tag == "Character" && (playerType != other.GetComponent<CharacterMover>().playerType)) 
-		{
+		if ((other.tag == "Character" && playerType != other.GetComponent<CharacterMover> ().playerType) || (other.tag == "Tower" && playerType != other.GetComponent<TowerAttack> ().playerType)) {
 			shouldAttack = true;
 			StartCoroutine (SpawnBullets ());
-			StartCoroutine (DamageEnemyHealth (other.gameObject));
+			if (other.tag == "Character") {
+				StartCoroutine (DamageEnemyHealth (other.gameObject, other.gameObject.GetComponent<CharacterMover> ().totalHealth, other.gameObject.GetComponent<CharacterMover> ().currentHealth, other.gameObject.GetComponent<CharacterMover> ().killEarning, other.gameObject.GetComponent<CharacterMover> ().healthBar));
+			} else if (other.tag == "Tower") {
+				StartCoroutine (DamageEnemyHealth (other.gameObject, other.gameObject.GetComponent<TowerAttack> ().totalHealth, other.gameObject.GetComponent<TowerAttack> ().CurrentHealth, other.gameObject.GetComponent<TowerAttack> ().killEarning, other.gameObject.GetComponent<TowerAttack> ().healthBar));
+			}
+
 		}
-
-	}
-
-	void OnTriggerStay2D(Collider2D other)
-	{
-		if (other.tag == "Character" && (playerType != other.GetComponent<CharacterMover>().playerType)) 
-		{
-			
-		}
-
 	}
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		if (other.tag == "Character" && (playerType != other.GetComponent<CharacterMover>().playerType)) 
+		if ((other.tag == "Character" && playerType != other.GetComponent<CharacterMover> ().playerType) || (other.tag == "Tower" && playerType != other.GetComponent<TowerAttack> ().playerType)) 
 		{
-			Debug.Log ("TriggerExit Called");
 			shouldAttack = false;
 			StopCoroutine (SpawnBullets ());
-			StopCoroutine (DamageEnemyHealth (other.gameObject));
-			Debug.Log ("TriggerExit end");
+			if (other.tag == "Character") {
+				StartCoroutine (DamageEnemyHealth (other.gameObject, other.gameObject.GetComponent<CharacterMover> ().totalHealth, other.gameObject.GetComponent<CharacterMover> ().currentHealth, other.gameObject.GetComponent<CharacterMover> ().killEarning, other.gameObject.GetComponent<CharacterMover> ().healthBar));
+			} else if (other.tag == "Tower") {
+				StartCoroutine (DamageEnemyHealth (other.gameObject, other.gameObject.GetComponent<TowerAttack> ().totalHealth, other.gameObject.GetComponent<TowerAttack> ().CurrentHealth, other.gameObject.GetComponent<TowerAttack> ().killEarning, other.gameObject.GetComponent<TowerAttack> ().healthBar));
+			}
 		}
 	}
 
@@ -176,8 +169,8 @@ public class CharacterMover : MonoBehaviour
 		healthBar.transform.localScale = new Vector3 ((currentHealth / totalHealth), 1.0f, 1.0f);
 	}
 
-	private void UpdateHealthBar(GameObject gameObject)
+	private void UpdateHealthBar(SpriteRenderer enemyHealthBar, float enemyTotalHealth, float enemyCurrentHealth)
 	{
-		gameObject.GetComponent<CharacterMover> ().healthBar.transform.localScale = new Vector3 ((gameObject.GetComponent<CharacterMover> ().currentHealth / gameObject.GetComponent<CharacterMover> ().totalHealth), 1.0f, 1.0f);
+		enemyHealthBar.transform.localScale = new Vector3 ((enemyCurrentHealth/ enemyTotalHealth), 1.0f, 1.0f);
 	}
 }

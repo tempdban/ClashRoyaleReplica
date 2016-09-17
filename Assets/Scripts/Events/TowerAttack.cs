@@ -13,6 +13,12 @@ public class TowerAttack : MonoBehaviour {
     private bool shouldAttack;
     private float currentHealth;
 
+	public float CurrentHealth
+	{
+		get { return currentHealth; }
+		set { currentHealth = value; }
+	}
+
     void Start()
     {
         //setting up character data
@@ -43,29 +49,26 @@ public class TowerAttack : MonoBehaviour {
                 {
                     enemy.GetComponent<CharacterMover>().CurrentHealth -= damagePerSecond;
                     UpdateHealthBar(enemy);
-                    Debug.Log("Remaining Health: " + enemy.GetComponent<CharacterMover>().CurrentHealth);
+//                    Debug.Log("Remaining Health: " + enemy.GetComponent<CharacterMover>().CurrentHealth);
                     yield return new WaitForSeconds(1.0f);
                 }
                 else
                 {
                     enemy.GetComponent<CharacterMover>().CurrentHealth = 0.0f;
                     UpdateHealthBar(enemy);
-                    Debug.Log("Remaining Health: " + enemy.GetComponent<CharacterMover>().CurrentHealth);
+//                    Debug.Log("Remaining Health: " + enemy.GetComponent<CharacterMover>().CurrentHealth);
                     GameController.Instance.UpdatePlayerRevenue(playerType, enemy.GetComponent<CharacterMover>().killEarning);
                     Destroy(enemy);
-                    Debug.Log("Enemy Destroyed");
+                    Debug.Log("Character Destroyed");
                     shouldAttack = false;
                     StopCoroutine(SpawnBullets());
-                    Debug.Log("All Coroutine stopped");
                     yield break;
                 }
             }
             else
             {
-                Debug.Log("Enemy Already Dead");
                 shouldAttack = false;
                 StopCoroutine(SpawnBullets());
-                Debug.Log("All Coroutine stopped due to dead enemy");
                 yield break;
             }
 
@@ -87,11 +90,9 @@ public class TowerAttack : MonoBehaviour {
     {
         if (other.tag == "Character" && (playerType != other.GetComponent<CharacterMover>().playerType))
         {
-            Debug.Log("TriggerExit Called");
             shouldAttack = false;
             StopCoroutine(SpawnBullets());
             StopCoroutine(DamageEnemyHealth(other.gameObject));
-            Debug.Log("TriggerExit end");
         }
     }
 
