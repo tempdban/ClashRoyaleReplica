@@ -12,6 +12,7 @@ public class GameController : Singleton<GameController>
 	{
 		gameContextObject = gameObject;
 		gameRef = gameContextObject.GetComponent<GameReferences> ();
+		UpdatePlayersRevenueLabels ();
 		GameStartScreenController.Instance.ShowGameStartMenu (gameRef.gameStartScreenRef);
 
 //		Debug.Log ("Path1 List: ");
@@ -43,6 +44,22 @@ public class GameController : Singleton<GameController>
 	{
 		GameStartScreenController.Instance.HideGameStartMenu ();
 		CardMovementController.Instance.Init (gameContextObject);
+	}
+
+	public void UpdatePlayerRevenue(int playerType, int killEarning)
+	{
+		if (playerType == Constants.PLAYER_1)
+			GameModel.Instance.Player1Revenue += killEarning;
+		else if (playerType == Constants.PLAYER_2)
+			GameModel.Instance.Player2Revenue += killEarning;
+
+		UpdatePlayersRevenueLabels ();
+	}
+
+	public void UpdatePlayersRevenueLabels()
+	{
+		gameRef.player1RevenueLabel.text = "$ " + GameModel.Instance.Player1Revenue.ToString();
+		gameRef.player2RevenueLabel.text = "$ " + GameModel.Instance.Player2Revenue.ToString();
 	}
 
 

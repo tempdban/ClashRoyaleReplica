@@ -6,6 +6,7 @@ public class CharacterMover : MonoBehaviour
 {
 
 	public int playerType;
+	public int killEarning;
 	public float speed;
 	public float totalHealth;
 	public float damagePerSecond;
@@ -112,6 +113,7 @@ public class CharacterMover : MonoBehaviour
 					enemy.GetComponent<CharacterMover> ().currentHealth = 0.0f;
 					UpdateHealthBar (enemy);
 					Debug.Log ("Remaining Health: " + enemy.GetComponent<CharacterMover> ().currentHealth);
+					GameController.Instance.UpdatePlayerRevenue (playerType, enemy.GetComponent<CharacterMover> ().killEarning);
 					Destroy (enemy);
 					Debug.Log ("Enemy Destroyed");
 					shouldAttack = false;

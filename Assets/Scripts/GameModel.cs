@@ -14,6 +14,8 @@ public class GameModel: Singleton <GameModel>
 	private bool hasPlayer2SelectedPath2;
 	private bool hasPlayer2SelectedPath3;
 
+	private int player1Revenue;
+	private int player2Revenue;
 	private float speed;
 	private List<Vector3> path1List;
 	private List<Vector3> path2List;
@@ -71,6 +73,18 @@ public class GameModel: Singleton <GameModel>
 		set{ hasPlayer2SelectedPath3 = value;}
 	}
 
+	public int Player1Revenue
+	{
+		get{ return player1Revenue;}
+		set{ player1Revenue = value;}
+	}
+
+	public int Player2Revenue
+	{
+		get{ return player2Revenue;}
+		set{ player2Revenue = value;}
+	}
+
 	public float Speed
 	{
 		get{ return speed;}
@@ -118,6 +132,8 @@ public class GameModel: Singleton <GameModel>
 		hasPlayer2SelectedPath2 = false;
 		hasPlayer2SelectedPath3 = false;
 
+		player1Revenue = 0;
+		player2Revenue = 0;
 		speed = 2.0f;
 		path1List = new List<Vector3> {
 			new Vector3 (-0.59f, -3.03f, 0.0f),
