@@ -7,6 +7,7 @@ public class TowerAttack : Tower
     public GameObject bullet;
     private bool shouldAttack;
 	private bool isHealthNotSet;
+    private bool towerTapped;
 
 	void Update ()
 	{
@@ -21,10 +22,6 @@ public class TowerAttack : Tower
 			isHealthNotSet = true;
 		}
 
-        RaycastHit hit;
-        //Create a Ray on the tapped / clicked position
-        Ray ray;
-
         if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || (Input.GetMouseButtonDown(0)))
         {
             Vector3 worldPoint = Vector3.zero;
@@ -34,12 +31,17 @@ public class TowerAttack : Tower
 #elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_WP8)
 				worldPoint = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
 #endif
-            Debug.Log("Touch Began");
+            if (GetComponent<CircleCollider2D>().OverlapPoint(worldPoint))
+            {
+                towerTapped = true;
+                Debug.Log("Touch Begin");
+            }
 
         }
-        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0)))
+        if (towerTapped && (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0)))
         {
             Debug.Log("Touch Ended");
+            towerTapped = false;
         }
     }
 
