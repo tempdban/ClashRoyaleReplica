@@ -20,7 +20,28 @@ public class TowerAttack : Tower
 			healthBarBorder.color = Constants.PLAYER_HEALTH_BAR_BORDER_COLORS[playerType - 1];
 			isHealthNotSet = true;
 		}
-	}
+
+        RaycastHit hit;
+        //Create a Ray on the tapped / clicked position
+        Ray ray;
+
+        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || (Input.GetMouseButtonDown(0)))
+        {
+            Vector3 worldPoint = Vector3.zero;
+#if UNITY_EDITOR
+            worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //for touch device
+#elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_WP8)
+				worldPoint = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+#endif
+            Debug.Log("Touch Moved");
+
+        }
+        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0)))
+        {
+            Debug.Log("Touch Moved");
+        }
+    }
 
     IEnumerator SpawnBullets()
     {
