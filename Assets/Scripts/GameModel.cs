@@ -17,6 +17,7 @@ public class GameModel: Singleton <GameModel>
 
 	private int player1Revenue;
 	private int player2Revenue;
+    private int healthIncreasePerUpgrade;
 	private float speed;
 	private List<Vector3> path1List;
 	private List<Vector3> path2List;
@@ -92,6 +93,11 @@ public class GameModel: Singleton <GameModel>
 		set{ player2Revenue = value;}
 	}
 
+    public int HealthIncreasePerUpgrade
+    {
+        get{ return healthIncreasePerUpgrade; }
+        set{ healthIncreasePerUpgrade = value; }
+    }
 	public float Speed
 	{
 		get{ return speed;}
@@ -142,6 +148,7 @@ public class GameModel: Singleton <GameModel>
 
 		player1Revenue = 0;
 		player2Revenue = 0;
+        healthIncreasePerUpgrade = 5;
 		speed = 2.0f;
 		path1List = new List<Vector3> {
 			new Vector3 (-0.59f, -3.03f, 0.0f),

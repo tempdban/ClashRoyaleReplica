@@ -38,9 +38,10 @@ public class TowerAttack : Tower
             }
 
         }
-        if (towerTapped && (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0)))
+        if (towerTapped && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0))))
         {
             Debug.Log("Touch Ended");
+            GameController.Instance.ShowUpgradePopup(gameObject);
             towerTapped = false;
         }
     }
@@ -120,4 +121,5 @@ public class TowerAttack : Tower
     {
         gameObject.GetComponent<CharacterMover>().healthBar.transform.localScale = new Vector3((gameObject.GetComponent<CharacterMover>().CurrentHealth / gameObject.GetComponent<CharacterMover>().totalHealth), 1.0f, 1.0f);
     }
+
 }

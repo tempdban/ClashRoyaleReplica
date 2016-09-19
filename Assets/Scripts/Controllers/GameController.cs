@@ -112,5 +112,9 @@ public class GameController : Singleton<GameController>
 			}
 		}
 	}
+    public void ShowUpgradePopup(GameObject tower)
+    {
+        UpgradeController.Instance.ShowUpgradeDialogue(tower, gameRef);
+    }
 
 }

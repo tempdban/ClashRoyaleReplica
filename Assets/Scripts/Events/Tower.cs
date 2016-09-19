@@ -8,11 +8,12 @@ public class Tower : MonoBehaviour
 	public float totalHealth;
 	public SpriteRenderer healthBar;
 	public SpriteRenderer healthBarBorder;
-	private float currentHealth;
+    private float currentHealth;
 
 	public float CurrentHealth
 	{
 		get { return currentHealth; }
 		set { currentHealth = value; }
 	}
+
 }

@@ -4,7 +4,7 @@ using System.Collections;
 public class TowerCoinGenerator : Tower 
 {
 	public int percentageBenefitPerKill;
-	private bool isHealthNotSet;
+    private bool isHealthNotSet;
     private bool towerTapped;
 
 	void Update ()
@@ -20,26 +20,27 @@ public class TowerCoinGenerator : Tower
 			isHealthNotSet = true;
 		}
 
-//        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || (Input.GetMouseButtonDown(0)))
-//        {
-//            Vector3 worldPoint = Vector3.zero;
-//#if UNITY_EDITOR
-//            worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-//            //for touch device
-//#elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_WP8)
-//				worldPoint = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-//#endif
-//            //if (GetComponent<CircleCollider2D>().OverlapPoint(worldPoint))
-//            //{
-//            //    towerTapped = true;
-//            //    Debug.Log("Touch Begin");
-//            //}
+        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || (Input.GetMouseButtonDown(0)))
+        {
+            Vector3 worldPoint = Vector3.zero;
+#if UNITY_EDITOR
+            worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            //for touch device
+#elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_WP8)
+				worldPoint = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+#endif
+            if (GetComponent<CircleCollider2D>().OverlapPoint(worldPoint))
+            {
+                towerTapped = true;
+                Debug.Log("Touch Begin");
+            }
 
-//        }
-//        if (towerTapped && (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0)))
-//        {
-//            Debug.Log("Touch Ended");
-//        }
+        }
+        if (towerTapped && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0))))
+        {
+            Debug.Log("Touch Ended");
+            towerTapped = false;
+        }
     }
 
 	private void UpdateHealthBar()
