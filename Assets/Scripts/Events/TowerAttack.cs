@@ -1,34 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TowerAttack : MonoBehaviour {
-
-    public int playerType;
-    public int killEarning;
-    public float totalHealth;
+public class TowerAttack : Tower 
+{
     public float damagePerSecond;
-    public SpriteRenderer healthBar;
-    public SpriteRenderer healthBarBorder;
     public GameObject bullet;
     private bool shouldAttack;
-    private float currentHealth;
+	private bool isHealthNotSet;
 
-	public float CurrentHealth
+	void Update ()
 	{
-		get { return currentHealth; }
-		set { currentHealth = value; }
+		if (GameModel.Instance.AreGameVariableReady && !isHealthNotSet) 
+		{
+			//setting up character data
+			totalHealth = GameController.Instance.UpdateHealthDependingHealthTower(playerType, totalHealth);
+			this.CurrentHealth = totalHealth;
+			UpdateHealthBar();
+			healthBar.color = Constants.PLAYER_HEALTH_BAR_COLORS[playerType - 1];
+			healthBarBorder.color = Constants.PLAYER_HEALTH_BAR_BORDER_COLORS[playerType - 1];
+			isHealthNotSet = true;
+		}
 	}
-
-    void Start()
-    {
-        //setting up character data
-        currentHealth = totalHealth;
-        UpdateHealthBar();
-        Debug.Log("Total Health: " + totalHealth);
-        Debug.Log("Current Health: " + totalHealth);
-        healthBar.color = Constants.PLAYER_HEALTH_BAR_COLORS[playerType - 1];
-        healthBarBorder.color = Constants.PLAYER_HEALTH_BAR_BORDER_COLORS[playerType - 1];
-    }
 
     IEnumerator SpawnBullets()
     {
@@ -98,7 +90,7 @@ public class TowerAttack : MonoBehaviour {
 
     private void UpdateHealthBar()
     {
-        healthBar.transform.localScale = new Vector3((currentHealth / totalHealth), 1.0f, 1.0f);
+		healthBar.transform.localScale = new Vector3((this.CurrentHealth / totalHealth), 1.0f, 1.0f);
     }
 
     private void UpdateHealthBar(GameObject gameObject)

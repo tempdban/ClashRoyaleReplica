@@ -6,6 +6,7 @@ public class GameModel: Singleton <GameModel>
 {
 	private bool isPlayer1CardHeld;
 	private bool isPlayer2CardHeld;
+	public bool areGameVariableReady;
 
 	private bool hasPlayer1SelectedPath1;
 	private bool hasPlayer1SelectedPath2;
@@ -35,6 +36,12 @@ public class GameModel: Singleton <GameModel>
 	{
 		get{ return isPlayer2CardHeld;}
 		set{ isPlayer2CardHeld = value;}
+	}
+
+	public bool AreGameVariableReady
+	{
+		get{ return areGameVariableReady;}
+		set{ areGameVariableReady = value;}
 	}
 
 	public bool HasPlayer1SelectedPath1
@@ -124,6 +131,7 @@ public class GameModel: Singleton <GameModel>
 	{
 		isPlayer1CardHeld = false;
 		isPlayer2CardHeld = false;
+		areGameVariableReady = false;
 
 		hasPlayer1SelectedPath1 = false;
 		hasPlayer1SelectedPath2 = false;
