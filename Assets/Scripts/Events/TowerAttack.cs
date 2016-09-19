@@ -34,12 +34,12 @@ public class TowerAttack : Tower
 #elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_WP8)
 				worldPoint = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
 #endif
-            Debug.Log("Touch Moved");
+            Debug.Log("Touch Began");
 
         }
         if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0)))
         {
-            Debug.Log("Touch Moved");
+            Debug.Log("Touch Ended");
         }
     }
 
