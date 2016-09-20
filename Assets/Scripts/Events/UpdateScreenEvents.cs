@@ -7,5 +7,9 @@ public class UpdateScreenEvents : MonoBehaviour {
     {
         UpgradeController.Instance.UpgradeTower();
     }
+    public void CancelUpgrade()
+    {
+        UpgradeController.Instance.CancelUpgrade();
+    }
 
 }
