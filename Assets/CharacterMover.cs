@@ -7,9 +7,11 @@ public class CharacterMover : MonoBehaviour
 
 	public int playerType;
 	public int killEarning;
+	public int upgradeCost;
 	public float speed;
 	public float totalHealth;
 	public float damagePerSecond;
+	public string characterName;
 	public SpriteRenderer healthBar;
 	public SpriteRenderer healthBarBorder;
 	public GameObject bullet;

@@ -5,8 +5,9 @@ using System.Collections;
 
 public class UpgradeScreenReferences : MonoBehaviour
 {
-	public Text towerNameLabel;
+	public Text itemNameLabel;
     public Text cost;
-	public Button upgradeButton;
+	public Button upgradeTowerButton;
+	public Button upgradeCharacterButton;
 
 }
