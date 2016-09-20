@@ -4,4 +4,5 @@ using System.Collections;
 public class CardReferences : MonoBehaviour 
 {
 	public GameObject character;
+	public int spawningCost;
 }

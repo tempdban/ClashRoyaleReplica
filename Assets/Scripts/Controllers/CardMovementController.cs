@@ -117,10 +117,11 @@ public class CardMovementController : Singleton<CardMovementController>
 							if(GameModel.Instance.HasPlayer1SelectedPath1 || GameModel.Instance.HasPlayer1SelectedPath2 || GameModel.Instance.HasPlayer1SelectedPath3)
 							{
 								CardReferences cardRef = card.GetComponent<CardReferences> ();
-								if (cardRef.character != null)
+								if (cardRef.character != null && cardRef.spawningCost <= GameModel.Instance.Player1Revenue)
 								{
 									GameObject character = Instantiate(cardRef.character, card.transform.position, card.transform.rotation) as GameObject;
 									character.GetComponent<CharacterMover> ().playerType = Constants.PLAYER_1;
+									GameController.Instance.WithdrawFromPlayerRevenue (Constants.PLAYER_1, cardRef.spawningCost);
 //									character.GetComponent<CharacterMover> ().characterCard = card;
 									Debug.Log ("Character Initialized");
 								}
@@ -137,10 +138,11 @@ public class CardMovementController : Singleton<CardMovementController>
 							if(GameModel.Instance.HasPlayer2SelectedPath1 || GameModel.Instance.HasPlayer2SelectedPath2 || GameModel.Instance.HasPlayer2SelectedPath3)
 							{
 								CardReferences cardRef = card.GetComponent<CardReferences> ();
-								if (cardRef.character != null)
+								if (cardRef.character != null && cardRef.spawningCost <= GameModel.Instance.Player1Revenue)
 								{
 									GameObject character = Instantiate(cardRef.character, card.transform.position, card.transform.rotation) as GameObject;
 									character.GetComponent<CharacterMover> ().playerType = Constants.PLAYER_2;
+									GameController.Instance.WithdrawFromPlayerRevenue (Constants.PLAYER_2, cardRef.spawningCost);
 //									character.GetComponent<CharacterMover> ().characterCard = card;
 									Debug.Log ("Character Initialized");
 								}
