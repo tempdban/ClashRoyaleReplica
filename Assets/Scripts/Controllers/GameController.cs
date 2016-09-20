@@ -7,6 +7,13 @@ public class GameController : Singleton<GameController>
 {
 	GameReferences gameRef;
 	GameObject gameContextObject;
+	bool isUIOpen;
+
+	public bool IsUIOpen 
+	{
+		get; 
+		set;
+	}
 
 	public void LoadGame(GameObject gameObject)
 	{
@@ -47,7 +54,7 @@ public class GameController : Singleton<GameController>
 		CardMovementController.Instance.Init (gameContextObject);
 	}
 
-	public void UpdatePlayerRevenue(int playerType, int killEarning)
+	public void DepositInPlayerRevenue(int playerType, int killEarning)
 	{
 		if (playerType == Constants.PLAYER_1) 
 		{
@@ -72,6 +79,18 @@ public class GameController : Singleton<GameController>
 			{
 				GameModel.Instance.Player2Revenue += killEarning;
 			}
+		}
+
+		UpdatePlayersRevenueLabels ();
+	}
+
+	public void WithdrawFromPlayerRevenue(int playerType, int cost)
+	{
+		if (playerType == Constants.PLAYER_1) {
+			GameModel.Instance.Player1Revenue -= cost;
+		}
+		else if (playerType == Constants.PLAYER_2) {
+			GameModel.Instance.Player2Revenue -= cost;
 		}
 
 		UpdatePlayersRevenueLabels ();
@@ -112,9 +131,9 @@ public class GameController : Singleton<GameController>
 			}
 		}
 	}
-    public void ShowUpgradePopup(GameObject tower)
+	public void ShowUpgradePopup(Tower tower)
     {
-        UpgradeController.Instance.ShowUpgradeDialogue(tower, gameRef);
+		UpgradeController.Instance.ShowUpgradeDialogue(tower, gameRef.upgradeScreenRef);
     }
 
 }

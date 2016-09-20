@@ -121,7 +121,7 @@ public class CharacterMover : MonoBehaviour
 				} else {
 					enemyCurrentHealth = 0.0f;
 					UpdateHealthBar (enemyHealthBar, enemyTotalHealth, enemyCurrentHealth);
-					GameController.Instance.UpdatePlayerRevenue (playerType, enemyKillEarning);
+					GameController.Instance.DepositInPlayerRevenue (playerType, enemyKillEarning);
 					Debug.Log("Tower Remaining Health: " + enemyCurrentHealth);
 					Destroy (enemy);
 					shouldAttack = false;

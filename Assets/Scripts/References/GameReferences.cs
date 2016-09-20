@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class GameReferences : MonoBehaviour 
 {
 	public GameStartScreenReferences gameStartScreenRef;
+	public UpgradeScreenReferences upgradeScreenRef;
 	public Text player1RevenueLabel;
 	public Text player2RevenueLabel;
 	public GameObject player1CoinTower;

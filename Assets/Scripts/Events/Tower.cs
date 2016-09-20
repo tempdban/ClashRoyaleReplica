@@ -5,7 +5,9 @@ public class Tower : MonoBehaviour
 {
 	public int playerType;
 	public int killEarning;
+	public int upgradeCost;
 	public float totalHealth;
+	public string towerName;
 	public SpriteRenderer healthBar;
 	public SpriteRenderer healthBarBorder;
     private float currentHealth;

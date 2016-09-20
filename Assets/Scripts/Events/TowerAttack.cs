@@ -22,28 +22,28 @@ public class TowerAttack : Tower
 			isHealthNotSet = true;
 		}
 
-        if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || (Input.GetMouseButtonDown(0)))
-        {
-            Vector3 worldPoint = Vector3.zero;
-#if UNITY_EDITOR
-            worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //for touch device
-#elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_WP8)
-				worldPoint = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-#endif
-            if (GetComponent<CircleCollider2D>().OverlapPoint(worldPoint))
-            {
-                towerTapped = true;
-                Debug.Log("Touch Begin");
-            }
+		if (!GameController.Instance.IsUIOpen) {
 
-        }
-        if (towerTapped && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0))))
-        {
-            Debug.Log("Touch Ended");
-            GameController.Instance.ShowUpgradePopup(gameObject);
-            towerTapped = false;
-        }
+			if ((Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Began) || (Input.GetMouseButtonDown (0))) {
+				Vector3 worldPoint = Vector3.zero;
+				#if UNITY_EDITOR
+				worldPoint = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+				//for touch device
+				#elif (UNITY_ANDROID || UNITY_IPHONE || UNITY_WP8)
+					worldPoint = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+				#endif
+				if (GetComponent<CircleCollider2D> ().OverlapPoint (worldPoint)) {
+					towerTapped = true;
+					Debug.Log ("Touch Begin");
+				}
+
+			}
+			if (towerTapped && ((Input.touchCount > 0 && Input.GetTouch (0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp (0)))) {
+				Debug.Log ("Touch Ended");
+				GameController.Instance.ShowUpgradePopup (this);
+				towerTapped = false;
+			}
+		}
     }
 
     IEnumerator SpawnBullets()
@@ -73,7 +73,7 @@ public class TowerAttack : Tower
                     enemy.GetComponent<CharacterMover>().CurrentHealth = 0.0f;
                     UpdateHealthBar(enemy);
 //                    Debug.Log("Remaining Health: " + enemy.GetComponent<CharacterMover>().CurrentHealth);
-                    GameController.Instance.UpdatePlayerRevenue(playerType, enemy.GetComponent<CharacterMover>().killEarning);
+                    GameController.Instance.DepositInPlayerRevenue(playerType, enemy.GetComponent<CharacterMover>().killEarning);
                     Destroy(enemy);
                     Debug.Log("Character Destroyed");
                     shouldAttack = false;

@@ -146,8 +146,8 @@ public class GameModel: Singleton <GameModel>
 		hasPlayer2SelectedPath2 = false;
 		hasPlayer2SelectedPath3 = false;
 
-		player1Revenue = 0;
-		player2Revenue = 0;
+		player1Revenue = 600;
+		player2Revenue = 600;
         healthIncreasePerUpgrade = 5;
 		speed = 2.0f;
 		path1List = new List<Vector3> {
