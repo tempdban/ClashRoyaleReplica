@@ -148,7 +148,7 @@ public class CardMovementController : Singleton<CardMovementController>
 							if(GameModel.Instance.HasPlayer2SelectedPath1 || GameModel.Instance.HasPlayer2SelectedPath2 || GameModel.Instance.HasPlayer2SelectedPath3)
 							{
 								CardReferences cardRef = card.GetComponent<CardReferences> ();
-								if (cardRef.character != null && cardRef.spawningCost <= GameModel.Instance.Player1Revenue)
+								if (cardRef.character != null && cardRef.spawningCost <= GameModel.Instance.Player2Revenue)
 								{
 									GameObject character = Instantiate(cardRef.character, card.transform.position, card.transform.rotation) as GameObject;
 //									character.GetComponent<CharacterMover> ().playerType = Constants.PLAYER_2;

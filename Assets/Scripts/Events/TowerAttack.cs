@@ -75,7 +75,7 @@ public class TowerAttack : Tower
 //                    Debug.Log("Remaining Health: " + enemy.GetComponent<CharacterMover>().CurrentHealth);
                     GameController.Instance.DepositInPlayerRevenue(playerType, enemy.GetComponent<CharacterMover>().killEarning);
                     Destroy(enemy);
-                    Debug.Log("Character Destroyed");
+//                    Debug.Log("Character Destroyed");
                     shouldAttack = false;
                     StopCoroutine(SpawnBullets());
                     yield break;

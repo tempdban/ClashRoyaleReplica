@@ -39,8 +39,8 @@ public class CharacterMover : MonoBehaviour
 		currentHealth = totalHealth;
 
 		UpdateHealthBar ();
-		Debug.Log ("Total Health: " + totalHealth);
-		Debug.Log ("Current Health: " + totalHealth);
+//		Debug.Log ("Total Health: " + totalHealth);
+//		Debug.Log ("Current Health: " + totalHealth);
 		healthBar.color = Constants.PLAYER_HEALTH_BAR_COLORS[playerType - 1];
 		healthBarBorder.color = Constants.PLAYER_HEALTH_BAR_BORDER_COLORS[playerType - 1];
 	}
@@ -117,14 +117,14 @@ public class CharacterMover : MonoBehaviour
 			if (enemy != null) {
 				if (enemyCurrentHealth - damagePerSecond > 0) {
 					enemyCurrentHealth -= damagePerSecond;
-					Debug.Log("Tower Remaining Health: " + enemyCurrentHealth);
+//					Debug.Log("Tower Remaining Health: " + enemyCurrentHealth);
 					UpdateHealthBar (enemyHealthBar, enemyTotalHealth, enemyCurrentHealth);
 					yield return new WaitForSeconds (1.0f);
 				} else {
 					enemyCurrentHealth = 0.0f;
 					UpdateHealthBar (enemyHealthBar, enemyTotalHealth, enemyCurrentHealth);
 					GameController.Instance.DepositInPlayerRevenue (playerType, enemyKillEarning);
-					Debug.Log("Tower Remaining Health: " + enemyCurrentHealth);
+//					Debug.Log("Tower Remaining Health: " + enemyCurrentHealth);
 					Destroy (enemy);
 					shouldAttack = false;
 					StopCoroutine (SpawnBullets ());

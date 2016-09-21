@@ -33,13 +33,13 @@ public class TowerHealthImprover : Tower
                 if (GetComponent<CircleCollider2D>().OverlapPoint(worldPoint))
                 {
                     towerTapped = true;
-                    Debug.Log("Touch Begin");
+//                    Debug.Log("Touch Begin");
                 }
 
             }
             if (towerTapped && ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) || (Input.GetMouseButtonUp(0))))
             {
-                Debug.Log("Touch Ended");
+//                Debug.Log("Touch Ended");
                 GameController.Instance.ShowUpgradePopup(this);
                 towerTapped = false;
             }

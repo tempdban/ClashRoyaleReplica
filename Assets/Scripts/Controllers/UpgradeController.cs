@@ -19,6 +19,8 @@ public class UpgradeController : Singleton<UpgradeController> {
 		upgradeScreenRef.upgradeCharacterButton.gameObject.SetActive (false);
 
 		if (towerUpgrade.playerType == Constants.PLAYER_1) {
+
+			upgradeScreenRef.gameObject.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
 			if (towerUpgrade.upgradeCost > GameModel.Instance.Player1Revenue) {
                 upgradeScreenRef.cost.color=Color.red;
 				upgradeScreenRef.upgradeTowerButton.enabled = false;
@@ -30,6 +32,8 @@ public class UpgradeController : Singleton<UpgradeController> {
             }
 		}
 		else if (towerUpgrade.playerType == Constants.PLAYER_2) {
+
+			upgradeScreenRef.gameObject.transform.localScale = new Vector3 (-1.0f, -1.0f, 1.0f);
 			if (towerUpgrade.upgradeCost > GameModel.Instance.Player2Revenue) {
                 upgradeScreenRef.cost.color = Color.red;
 				upgradeScreenRef.upgradeTowerButton.enabled = false;
@@ -40,7 +44,7 @@ public class UpgradeController : Singleton<UpgradeController> {
 				upgradeScreenRef.upgradeTowerButton.enabled = true;
             }
 		}
-        Debug.Log("Popup Opened");
+//        Debug.Log("Popup Opened");
     }
 
 	public void ShowCharacterUpgradeDialogue(CharacterMover character, UpgradeScreenReferences upgradeScreenReferences)
@@ -55,6 +59,8 @@ public class UpgradeController : Singleton<UpgradeController> {
 		upgradeScreenRef.upgradeCharacterButton.gameObject.SetActive (true);
 
 		if (characterUpgrade.playerType == Constants.PLAYER_1) {
+
+			upgradeScreenRef.gameObject.transform.localScale = new Vector3 (1.0f, 1.0f, 1.0f);
 			if (characterUpgrade.upgradeCost > GameModel.Instance.Player1Revenue) {
 				upgradeScreenRef.cost.color=Color.red;
 				upgradeScreenRef.upgradeCharacterButton.enabled = false;
@@ -66,6 +72,8 @@ public class UpgradeController : Singleton<UpgradeController> {
 			}
 		}
 		else if (characterUpgrade.playerType == Constants.PLAYER_2) {
+
+			upgradeScreenRef.gameObject.transform.localScale = new Vector3 (-1.0f, -1.0f, 1.0f);
 			if (characterUpgrade.upgradeCost > GameModel.Instance.Player2Revenue) {
 				upgradeScreenRef.cost.color = Color.red;
 				upgradeScreenRef.upgradeCharacterButton.enabled = false;
@@ -76,7 +84,7 @@ public class UpgradeController : Singleton<UpgradeController> {
 				upgradeScreenRef.upgradeCharacterButton.enabled = true;
 			}
 		}
-		Debug.Log("Popup Opened");
+//		Debug.Log("Popup Opened");
 	}
 
     public void UpgradeTower()
